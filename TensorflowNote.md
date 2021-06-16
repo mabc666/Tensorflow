@@ -682,3 +682,107 @@ $$
 w_{t+1} = w_{t} - \eta_{t}
 $$
 
+## 四、基于Keras搭建神经网络
+
+### 1、搭建神经网络的步骤
+
+**六步法**
+
+（1）import (引入相关模块)
+
+（2）train，test（告知要喂入网络的训练集和测试集是什么）
+
+（3）model = tf.keras.models.Sequential （搭建网络结构，逐层描述每层网络）
+
+（4）model.compile （选择使用什么优化器，选择哪个损失函数，选择哪种评测指标）
+
+（5）model.fit （告知训练集和测试集的输入特征和标签）
+
+（6）model.summary（打印网络的结构和参数统计）
+
+### 2、Sequential 介绍
+
+Sequential描述了整个网络的结构，下面列举一些网络结构：
+
+​    拉直层：tf.keras.layers.Flatten()
+
+​    全连接层：tf.keras.layers.Dense(神经元个数，activation=“激活函数”，kernel_regularizer=哪种正则化)
+
+​    activation（字符串给出）：可选relu、softmax、sigmoid、tanh
+
+​    kernel_regularizer:可选tf.keras.regularizers.l1()、tf.keras.regularizers.l2()
+
+​    卷积层：tf.keras.layers.Conv2D(filters=卷积核个数，kernel_size=卷积核尺寸，strides=卷积步长，padding=“valid” or “same”)
+
+​	LSTM层：tf.keras.layers.LSTM()
+
+### 3、Compile介绍
+
+Compile描述了我们使用哪些方法去优化神经网络
+
+**model.compile( optimizer=优化器，loss=损失函数，metrics=["准确率"] )**
+
+**Optimizer 可选：**
+
+​	‘sgd’ 或者 tf.keras.optimizers.SGD(lr=学习率, momentum=动量参数)
+
+​    ‘adagrad’ 或者 tf.keras.optimizers.Adagrad(lr=学习率)
+
+​    ‘adadelta’ 或者 tf.keras.optimizers.Adadelta(lr=学习率) 
+
+​    ‘adam’ 或者 tf.keras.optimizers.Adam(lr=学习率， beta_1 = 0.9, beta_2 = 0.999)
+
+**Loss 可选：**
+
+​	‘mse’ 或者 tf.keras.losses.MeanSquaredError()
+
+​	'sparse_categorical_crossentropy' 或者 tf.keras.losses
+
+**Metrics 可选：**
+
+​	‘accuracy’： y 和 y_都是数值，如 y=[1]
+
+​	'categorical_accuracy'：y和y_都是one-hot（概率分布），如y（实际）=[0,1,0]， y（预测）= [0.256, 0.695, 0.048]
+
+​    'sparse_categorical_accurary'：y_是数值，y是onehot，如y（实际）= [1], y（预测）= [0.256, 0.695,  0.048]
+
+### 4、Fit和Summary介绍
+
+fit函数对模型进行训练
+
+**model.fit(**
+
+**训练集的输入特征，训练集的标签，**
+
+**batch_size=,  epoch=,**  
+
+**validation_data=(测试集的输入特征，测试集的标签)，**
+
+**validation_split=从训练集划分多个比例给测试集，**
+
+**validation_freq=多少个epoch测试一次**
+
+**)**
+
+
+
+summary打印网络结构以及训练后的参数情况
+
+ **model.summary()**
+
+### 5、使用类封装网络结构
+
+使用Sequential 可以简单的搭建顺序神经网络，但是有些非顺序的网络我们只能通过继承基础的神经网络来自定义网络结构。
+
+```python
+Class MyModel(Model)
+	def __init__(self):
+		super(MyModel, self).__init__()
+	# 定义网络结构块
+	def call(self, x)
+	    # 调用网络结构块，实现前向传播
+    	return y
+model = MyModel()
+```
+
+### 
