@@ -682,7 +682,6 @@ $$
 w_{t+1} = w_{t} - \eta_{t}
 $$
 
-<<<<<<< HEAD
 ## 四、基于Keras搭建神经网络
 
 ### 1、搭建神经网络的步骤
@@ -785,3 +784,4 @@ Class MyModel(Model)
     	return y
 model = MyModel()
 ```
+
